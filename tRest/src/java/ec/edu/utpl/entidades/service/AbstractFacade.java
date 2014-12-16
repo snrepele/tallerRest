@@ -5,8 +5,11 @@
  */
 package ec.edu.utpl.entidades.service;
 
+import ec.edu.utpl.entidades.Curso;
+import ec.edu.utpl.entidades.Docente;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -59,5 +62,21 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
+
+   
     
+     public List<Curso> findCursoByDocente(Integer cedula){
+        TypedQuery<Curso> q= getEntityManager().createNamedQuery("Curso.findByDocente", Curso.class);
+        q.setParameter("cedula", cedula);
+        return q.getResultList();
+     }
+    
+    public List<Docente> findDocenteByCurso(Integer id) {
+        TypedQuery<Docente> q = getEntityManager().createNamedQuery("Docente.findByCurso", Docente.class);
+        q.setParameter("id", id);
+        return q.getResultList();
+}
+
+  
+
 }

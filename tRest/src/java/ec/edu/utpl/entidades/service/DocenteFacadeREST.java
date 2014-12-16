@@ -5,6 +5,7 @@
  */
 package ec.edu.utpl.entidades.service;
 
+import ec.edu.utpl.entidades.Curso;
 import ec.edu.utpl.entidades.Docente;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -33,33 +34,22 @@ public class DocenteFacadeREST extends AbstractFacade<Docente> {
         super(Docente.class);
     }
 
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Docente entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Docente entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
-    }
-
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Docente find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    //METODO GET PARA OBTENER LAS MATERIAS QUE DICTA UN DOCENTE POR MEDIO DE SU NUMERO DE CEDULA
+    @GET
+    @Path("/{cedula}/cursos")
+    @Produces({"application/xml", "application/json"})
+    public List<Curso> findCursoByDocente(@PathParam("cedula") Integer cedula) {
+     return super.findCursoByDocente(cedula);
+    }
 
+    
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
