@@ -19,6 +19,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -33,6 +36,35 @@ public class DocenteFacadeREST extends AbstractFacade<Docente> {
     public DocenteFacadeREST() {
         super(Docente.class);
     }
+    
+    @PUT
+    @Path("{json}")
+    @Consumes({"application/xml", "application/json"})
+    public void edit(@PathParam("json") String s)
+    {
+        JSONParser parser=new JSONParser();
+        try{
+         int  ced;
+         Object obj = parser.parse(s);
+         JSONObject jsonObject = (JSONObject) obj;  
+         
+         ced=Integer.parseInt(jsonObject.get("cedula").toString());         
+         
+         Docente d;
+         d = new Docente(ced, jsonObject.get("nombre").toString());
+         super.edit(d);
+             
+      }catch(ParseException pe){      
+      }    
+    }
+    
+    
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Integer id) {
+        super.remove(super.find(id));
+    }
+
 
     @GET
     @Path("{id}")
